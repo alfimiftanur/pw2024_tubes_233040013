@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    background-image: url(../img/bg-login.jpg);
+    background-position: 100%;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, .8);
+    backdrop-filter: blur(10px);
+    border-radius: 10px ;
+    width: 300px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.input {
+    margin-bottom: 15px;
+}
+
+
+.input input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: rgb(0, 0, 255);
+    color: #fff;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgb(48, 48, 244);
+}
+
+.forget{
+    width: 63%; 
+    margin-top: 10px;
+}
+
+.forget a{
+    color: white;
+    text-decoration: none;
+}
+
+.forget a:hover{
+    color: blue;
+    text-decoration: underline;
+}
