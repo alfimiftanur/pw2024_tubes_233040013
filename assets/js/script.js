@@ -34,7 +34,6 @@ carouselSlide.addEventListener('transitionend', () => {
   }
 });
 
-// Automatic sliding (optional)
 setInterval(() => {
   moveToNextSlide();
 }, 1000);

@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    height: 2000px;
+    font-family: "Poppins", sans-serif !important;
+}
+
+.custom-bg{
+    background-color: #aaa;
+    border: 1px solid #aaa;
+}
+
+.custom-bg:hover{
+background-color: #555;
+border-color: #555;
+}
+
+.login-form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+}

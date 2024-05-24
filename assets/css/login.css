@@ -72,3 +72,6 @@ button:hover {
     color: blue;
     text-decoration: underline;
 }
+.alert-danger{
+    color: red
+}
