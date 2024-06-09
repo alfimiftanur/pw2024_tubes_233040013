@@ -5,11 +5,11 @@ session_start();
 function koneksi()
 {
     return mysqli_connect("localhost", "root", "", "pw2024_tubes_233040013");
-    // return $conn;
 }
-//base url
-// $base_url = "http://localhost";
-
+// base url
+function baseUrl(){
+    return "localhost/pw2024_tubes_233040013/uploads/";
+}
 
 function query($query)
 {
@@ -37,11 +37,19 @@ function login($data) {
     $user = query("SELECT * FROM user WHERE email = '$email'");
 
     if ($user && password_verify($password, $user['password'])) {
-        $role = $user['id_role'];
-
         $_SESSION['login'] = true;
+        
+        if ($user['id_role'] == 1) {
+        $_SESSION['role'] = 'admin'; 
+        } else {
+            $_SESSION['role'] = 'user';
+        }
+        
         $_SESSION['id'] = $user['id'];
-        $_SESSION['id_role'] = $role; 
+
+        $stmt = $conn->prepare("INSERT INTO user_sessions (user_id) VALUES (?)");
+        $stmt->bind_param("i", $user['id']);
+        $stmt->execute();
 
 
         header("Location: index.php");
@@ -126,13 +134,14 @@ function contact($name, $email, $message) {
     }
 }
 
-
-// update profile/edit profile
+// update profile/edit profile oleh user
 function fileUpload($gambar) {
     $errors = [];
     $gambarpath = '';
+    $gambarUrl = '';
 
     if (!empty($gambar['name'])) {
+        $baseUrl = baseUrl();
         $targetDir = "../uploads/";
         $targetFile = $targetDir . basename($gambar["name"]);
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
@@ -154,13 +163,14 @@ function fileUpload($gambar) {
         if (empty($errors)) {
             if (move_uploaded_file($gambar["tmp_name"], $targetFile)) {
                 $gambarpath = $targetFile;
+                $gambarUrl = $baseUrl . basename($gambar["name"]);
             } else {
                 $errors[] = "Sorry, there was an error uploading your file.";
             }
         }
     }
 
-    return [$errors, $gambarpath];
+    return [$errors, $gambarpath, $gambarUrl];
 }
 
 function hashPassword($password) {
@@ -200,12 +210,12 @@ function updateUserProfile($id, $gambarpath, $username, $email, $hashedPassword)
     if ($stmt->execute()) {
         $stmt->close();
         $conn->close();
-        return "Profile updated successfully.";
+        echo "<script>alert('Profile updated successfully.')</script>";
     } else {
         $error = "Error updating profile: " . $stmt->error;
         $stmt->close();
         $conn->close();
-        return $error;
+        echo "<script>alert('Profile updated successfully.')</script>";
     }
 }
 
@@ -228,6 +238,20 @@ function profileUpdate($id, $gambar, $username, $email, $password) {
     return implode(', ', $errors);
 }
 
+// validate the user is admin
+function isAdmin() {
+    $user = getUserById($_SESSION['id']);
+    if ($user) {
+        if ($user['id_role'] == 1) {
+            return true;
+        } else {
+            echo "User is not an admin.";
+            return false;
+        }
+    }
+}
+
+// CRUD admin dashboard
 function getUserById($id) {
     $conn = koneksi();
     $sql = "SELECT * FROM user WHERE id = $id";
@@ -236,27 +260,11 @@ function getUserById($id) {
     return $result->fetch_assoc();
 }
 
-// CRUD admin dashboard
-function getUsers() {
-    $conn = koneksi();
-    $query = "SELECT * FROM user";
-    $result = mysqli_query($conn, $query);
-    
-    $users = array();
-    while ($row = mysqli_fetch_assoc($result)) {
-        $users[] = $row;
-    }
-    
-    mysqli_close($conn);
-    return $users;
-}
-
-
 function addUser($gambar, $username, $email, $password, $role) {
     $conn = koneksi();
 
-    $targetDir = "uploads/"; 
-    $defaultGambar = "../assets/img/default.jpg";
+    $targetDir = "../"; 
+    $defaultGambar = "assets/img/default.jpg";
     if (empty($_FILES['image']['name'])) {
         $targetFile = $targetDir . $defaultGambar;
         $uploadOk = 1; 
@@ -301,7 +309,6 @@ function addUser($gambar, $username, $email, $password, $role) {
 
     mysqli_close($conn);
 }
-
 
 function deleteUser($id) {
     $conn = koneksi();
@@ -375,6 +382,201 @@ function updateUser($id, $gambar, $username, $email, $password, $role) {
     mysqli_close($conn);
 }
 
+// crud images
+function fetchAllImages(){
+    $conn = koneksi();
+    $sql = "SELECT * FROM images";
+    $result = $conn -> query($sql);
+    $conn -> close();
+    return $result;
+}
 
+function uploadImage($file, $description, $userId, $conn) {
+    $conn = koneksi();
+    $targetDir = "../uploads/";
+    $targetFile = $targetDir . basename($file["name"]);
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+    
+    $check = getimagesize($file["tmp_name"]);
+    if ($check === false) {
+        return "File is not an image.";
+    }
+
+    if (file_exists($targetFile)) {
+        return "Sorry, file already exists.";
+    }
+
+    if ($file["size"] > 5000000) { 
+        return "Sorry, your file is too large.";
+    }
+
+    $allowedFormats = ["jpg", "png", "jpeg", "gif"];
+    if (!in_array($imageFileType, $allowedFormats)) {
+        return "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    }
+
+    if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
+        return "Sorry, there was an error uploading your file.";
+    }
+
+    $stmt = $conn->prepare("INSERT INTO images (image_path, description, id) VALUES (?, ?, ?)");
+    $stmt->bind_param("ssi", $targetFile, $description, $userId);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return "The file " . basename($file["name"]) . " has been uploaded.";
+    } else {
+        $stmt->close();
+        return "Error: " . $stmt->error;
+    }
+}
+
+function updateImage($id_images, $description, $file, $conn, &$imagePath)
+{
+    $targetDir = "../uploads/";
+    $newFileUploaded = false;
+    $newTargetFile = "";
+    $oldImagePath = "";
+
+    // cek jika meng-upload gambar
+    if ($file["name"]) {
+        $newTargetFile = $targetDir . basename($file["name"]);
+        $imageFileType = strtolower(pathinfo($newTargetFile, PATHINFO_EXTENSION));
+
+        // validasi gambar
+        $check = getimagesize($file["tmp_name"]);
+        if ($check === false) {
+            return "File is not an image.";
+        }
+
+        if (file_exists($newTargetFile)) {
+            return "Sorry, file already exists.";
+        }
+
+        // cek size gambar
+        if ($file["size"] > 5000000) {
+            return "Sorry, your file is too large.";
+        }
+
+        $allowedFormats = ["jpg", "png", "jpeg", "gif"];
+        if (!in_array($imageFileType, $allowedFormats)) {
+            return "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        }
+
+        if (!move_uploaded_file($file["tmp_name"], $newTargetFile)) {
+            return "Sorry, there was an error uploading your file.";
+        }
+
+        $newFileUploaded = true;
+
+        // mengambil path gambar lama untuk dihapus
+        $stmt = $conn->prepare("SELECT image_path FROM images WHERE id_images = ?");
+        $stmt->bind_param("i", $id_images);
+        $stmt->execute();
+        $stmt->bind_result($oldImagePath);
+        $stmt->fetch();
+        $stmt->close();
+    }
+
+    // update database
+    if ($newFileUploaded) {
+        $stmt = $conn->prepare("UPDATE images SET image_path = ?, description = ? WHERE id_images = ?");
+        $stmt->bind_param("ssi", $newTargetFile, $description, $id_images);
+        $imagePath = $newTargetFile; 
+    } else {
+        $stmt = $conn->prepare("UPDATE images SET description = ? WHERE id_images = ?");
+        $stmt->bind_param("si", $description, $id_images);
+    }
+
+    if ($stmt->execute()) {
+        // menghapus gambar lama jika meng-upload gambar
+        if ($newFileUploaded && file_exists($oldImagePath)) {
+            unlink($oldImagePath);
+        }
+        $stmt->close();
+        return "Image updated successfully.";
+    } else {
+        $stmt->close();
+        return "Error: " . $stmt->error;
+    }
+}
+
+function deleteImage($id_images) {
+    $conn = koneksi();
+    
+    $sql = "SELECT image_path FROM images WHERE id_images = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_images);
+    $stmt->execute();
+    $stmt->bind_result($imagePath);
+    $stmt->fetch();
+    $stmt->close();
+
+    if (file_exists($imagePath)) {
+        unlink($imagePath);
+    }
+
+    $sql = "DELETE FROM images WHERE id_images = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_images);
+    $result = $stmt->execute();
+    $stmt->close();
+    $conn->close();
+    
+    return $result;
+}
+
+// sorting image
+function getImages($sortBy = 'id_images', $sortOrder = 'ASC') {
+    $conn = koneksi();
+    
+    $canSortBy = ['id_images', 'description'];
+    $canSortOrder = ['ASC', 'DESC'];
+
+    if (!in_array($sortBy, $canSortBy)) {
+        $sortBy = 'id_images';
+    }
+
+    if (!in_array($sortOrder, $canSortOrder)) {
+        $sortOrder = 'ASC';
+    }
+
+    $query = "SELECT * FROM images ORDER BY $sortBy $sortOrder";
+    $result = mysqli_query($conn, $query);
+    
+    $users = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $users[] = $row;
+    }
+    
+    mysqli_close($conn);
+    return $users;
+}
+
+// sorting user
+function getUsers($sortBy = 'id', $sortOrder = 'ASC') {
+    $conn = koneksi();
+    
+    $canSortBy = ['id', 'username', 'email'];
+    $canSortOrder = ['ASC', 'DESC'];
+
+    if (!in_array($sortBy, $canSortBy)) {
+        $sortBy = 'id';
+    }
+
+    if (!in_array($sortOrder, $canSortOrder)) {
+        $sortOrder = 'ASC';
+    }
+
+    $query = "SELECT * FROM user ORDER BY $sortBy $sortOrder";
+    $result = mysqli_query($conn, $query);
+    
+    $users = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $users[] = $row;
+    }
+    
+    mysqli_close($conn);
+    return $users;
+}
 
 ?>

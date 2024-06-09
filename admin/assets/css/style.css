@@ -1,28 +1,151 @@
 * {
     box-sizing: border-box;
-}
-
-body{
     margin: 0;
     padding: 0;
-    height: 2000px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
     font-family: "Poppins", sans-serif !important;
 }
 
-.custom-bg{
-    background-color: #aaa;
-    border: 1px solid #aaa;
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100vh;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #ddd;
 }
 
-.custom-bg:hover{
-background-color: #555;
-border-color: #555;
+.sidebar h2 {
+    margin-top: 0;
+    font-weight: bold;
+    color: #333;
+    font-size: 1.5rem;
 }
 
-.login-form{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+}
+
+.sidebar li a {
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.sidebar li button.logout {
+    display: block;
+    color: #dc3545;
+    text-decoration: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+    border: none;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+    font-weight: bold;
+}
+
+.sidebar li button.logout:hover {
+    background-color: #f8d7da;
+}
+
+
+.sidebar li a:hover {
+    background-color: #f2f2f2;
+    color: #0056b3;
+}
+
+.sidebar li a.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.main-content {
+    margin-left: 193px;
+    padding: 29px;
+}
+
+.main-content h1 {
+    margin-top: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    padding: 10px 10px 0 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+.edit-button {
+    background-color: blue;
+    color: white;
+}
+form {
+    margin-top: 20px;
+    display: inline;
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+}
+
+form input[type="text"], form input[type="email"], form input[type="password"], form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    margin: 10px 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+form input[type="submit"], form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+form input[type="submit"]:hover, form button:hover {
+    background-color: #0056b3;
 }

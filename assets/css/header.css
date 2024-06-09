@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif !important;
+}
+
+/* navbar design */
+.navbar-nav {
+    margin: 0 auto;
+}
+.btn {
+    color: white;
+    background-color: black;
+}
+.login .btn:hover {
+    color: white;
+    background-color: #2b2b2b;
+}
