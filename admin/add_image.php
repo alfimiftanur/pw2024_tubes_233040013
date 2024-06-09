@@ -8,18 +8,17 @@ if (!isAdmin()) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = koneksi();
+    $title = $_POST["title"];
     $description = $_POST["description"];
-    $userId = $_POST["user_id"];
-    $message = uploadImage($_FILES["fileToUpload"], $description, $userId, $conn);
+    $IdRole = $_POST["id_role"];
+    $message = uploadImage($_FILES["fileToUpload"], $title, $description, $IdRole, $conn);
     if (strpos($message, 'uploaded') !== false) {
         echo "<script>alert('$message'); window.location.href='image.php';</script>";
     } else {
         echo "<script>alert('$message');</script>";
     }
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,8 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="assets/css/image.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-<body>
-
 <body>
     <div class="container">
         <div class="card shadow-sm">
@@ -46,10 +43,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <img id="imagePreview" class="preview" src="" alt="Image preview...">
                 </div>
                 <div class="mb-3">
+                    <label for="title" class="form-label">Image Title:</label>
+                    <input type="text" name="title" id="title" class="form-control" placeholder="Enter image title">
+                </div>
+                <div class="mb-3">
                     <label for="description" class="form-label">Image Description:</label>
                     <input type="text" name="description" id="description" class="form-control" placeholder="Enter image description">
                 </div>
-                <input type="hidden" name="user_id" value="1">
+                <input type="hidden" name="id_role" value="1">
                 <div class="text-center">
                     <input type="submit" value="Upload" name="submit" class="btn btn-primary">
                 </div>
@@ -57,20 +58,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>  
 
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 <script>
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const output = document.getElementById('imagePreview');
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    </script>
-
-
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('imagePreview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 </body>
 </html>

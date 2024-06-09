@@ -14,7 +14,7 @@ $row = $result->fetch_assoc();
 $totalUsers = $row['total_users'];
 
 // akun yang sedang login
-$result = $conn->query("SELECT COUNT(DISTINCT user_id) as logged_in_users FROM user_sessions WHERE session_end IS NULL");
+$result = $conn->query("SELECT COUNT(DISTINCT id) as logged_in_users FROM user_sessions WHERE session_end IS NULL");
 $row = $result->fetch_assoc();
 $loggedInUsers = $row['logged_in_users'];
 

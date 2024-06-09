@@ -61,7 +61,6 @@ $result = fetchAllImages();
                 while ($row = $result->fetch_assoc()) {
                   $rows[] = $row;
                 }
-
                 $chunks = array_chunk($rows, 4);
                 foreach ($chunks as $index => $chunk) {
                   ?>
@@ -70,11 +69,14 @@ $result = fetchAllImages();
                       <?php foreach ($chunk as $row) { ?>
                         <div class="col-md-3">
                           <div class="card">
-                            <img src="<?= 'uploads/' . htmlspecialchars($row['image_path']); ?>" class="card-img-top" alt="<?= htmlspecialchars($row['description']); ?>" height="270" width="270">
-                            <div class="card-body">
-                              <h5 class="card-title"><?= htmlspecialchars($row['description']); ?></h5>
-                              <a href="content/<?= htmlspecialchars(strtolower($row['description'])) ?>.php" class="btn btn-primary">View Details</a>
-                            </div>
+                            <img src="<?= 'uploads/' . htmlspecialchars($row['image_path']); ?>" 
+                                class="card-img-top" 
+                                alt="<?= htmlspecialchars($row['description']); ?>" 
+                                title="<?= htmlspecialchars($row['description']); ?>" height="270"  width="270">
+                              <div class="card-body">
+                                <h5 class="card-title"><?= htmlspecialchars($row['title']); ?></h5>
+                                <a href="content/<?= htmlspecialchars(strtolower($row['description'])) ?>.php" class="btn btn-primary">View Details</a>
+                              </div>
                           </div>
                         </div>
                       <?php } ?>

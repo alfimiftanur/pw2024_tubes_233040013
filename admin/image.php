@@ -48,7 +48,7 @@ $result = getImages($sortBy, $sortOrder);
                     <thead>
                         <tr>
                         <th><a href="?sortBy=id_images&sortOrder=<?= $newSortOrder; ?>" class="text-decoration-none text-reset">ID <i class="bi bi-arrow-<?= ($sortBy === 'id_images' && $sortOrder === 'ASC') ? 'up' : 'down'; ?> text-dark"></i></a></th>
-                        <th><a href="?sortBy=description&sortOrder=<?= $newSortOrder; ?>" class="text-decoration-none text-reset">Description <i class="bi bi-arrow-<?= ($sortBy === 'description' && $sortOrder === 'ASC') ? 'up' : 'down'; ?> text-dark"></i></a></th>
+                        <th><a href="?sortBy=title&sortOrder=<?= $newSortOrder; ?>" class="text-decoration-none text-reset">Title <i class="bi bi-arrow-<?= ($sortBy === 'title' && $sortOrder === 'ASC') ? 'up' : 'down'; ?> text-dark"></i></a></th>
                             <th>Image</th>
                             <th>Actions</th>
                         </tr>
@@ -58,15 +58,15 @@ $result = getImages($sortBy, $sortOrder);
                         <?php foreach ($result as $image) { ?>
                             <tr>
                                 <td><?= $id++; ?></td>
-                                <td><?= htmlspecialchars($image['description']); ?></td>
+                                <td><?= htmlspecialchars($image['title']); ?></td>
                                 <td>
                                     <?php
                                     if (!empty($image['image_path'])) {?>
-                                        <img src=" <?= htmlspecialchars($image['image_path']); htmlspecialchars($image['description']);?>"  alt="image" width="200" height="200"> 
+                                        <img src=" <?= htmlspecialchars($image['image_path']); htmlspecialchars($image['title']);?>"  alt="image" width="200" height="200"> 
                                     <?php } ?>
                                 </td>
                                 <td>
-                                    <a href="update_images.php?id=<?= $image['id_images']; ?>&description=<?= urlencode($image['description']); ?>&image_path=<?= urlencode($image['image_path']); ?>" class="btn btn-primary">Edit</a>
+                                    <a href="update_images.php?id=<?= $image['id_images']; ?>&title=<?= urlencode($image['title']); ?>&image_path=<?= urlencode($image['image_path']); ?>" class="btn btn-primary">Edit</a>
                                     <form method="POST" action="delete_image.php">
                                         <input type="hidden" name="id_images" value="<?= $image['id_images']; ?>">
                                         <button type="submit" onclick="return confirm('Are you Sure You Want to Delete This Image?')" class="btn btn-danger">Delete</button>

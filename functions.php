@@ -34,26 +34,32 @@ function login($data) {
     $email = htmlspecialchars($data['email']);
     $password = htmlspecialchars($data['password']);
 
-    $user = query("SELECT * FROM user WHERE email = '$email'");
+    $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['login'] = true;
+    if ($result->num_rows == 1) {
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['login'] = true;
         
-        if ($user['id_role'] == 1) {
-        $_SESSION['role'] = 'admin'; 
-        } else {
-            $_SESSION['role'] = 'user';
+            if ($user['id_role'] == 1) {
+                $_SESSION['role'] = 'admin'; 
+            } else {
+                $_SESSION['role'] = 'user';
+            }
+        
+            $_SESSION['id'] = $user['id'];
+
+            // Insert a new record for the current session
+            $stmt = $conn->prepare("INSERT INTO user_sessions (id, session_start) VALUES (?, NOW())");
+            $stmt->bind_param("i", $user['id']);
+            $stmt->execute();
+
+            header("Location: index.php");
+            exit;
         }
-        
-        $_SESSION['id'] = $user['id'];
-
-        $stmt = $conn->prepare("INSERT INTO user_sessions (user_id) VALUES (?)");
-        $stmt->bind_param("i", $user['id']);
-        $stmt->execute();
-
-
-        header("Location: index.php");
-        exit;
     }
 
     return [
@@ -80,9 +86,9 @@ function register($data)
         return false;
     }
 
-    if (query("SELECT * FROM user WHERE username = '$username'")) {
+    if (query("SELECT * FROM user WHERE username = '$username'") && query("SELECT * FROM user WHERE email = '$email'")) {
         echo "<script>
-            alert('Username already exists');
+            alert('Username/Email already exists');
             </script>";
         return false;
     }
@@ -263,7 +269,7 @@ function getUserById($id) {
 function addUser($gambar, $username, $email, $password, $role) {
     $conn = koneksi();
 
-    $targetDir = "../"; 
+    $targetDir = "../uploads/"; 
     $defaultGambar = "assets/img/default.jpg";
     if (empty($_FILES['image']['name'])) {
         $targetFile = $targetDir . $defaultGambar;
@@ -312,9 +318,14 @@ function addUser($gambar, $username, $email, $password, $role) {
 
 function deleteUser($id) {
     $conn = koneksi();
-    $query = "DELETE FROM user WHERE id = $id";
-    mysqli_query($conn, $query);
+
+    $stmt = $conn->prepare("DELETE FROM user WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $result = $stmt->execute();
+    $stmt->close();
     mysqli_close($conn);
+
+    return $result;
 }
 
 function updateUser($id, $gambar, $username, $email, $password, $role) {
@@ -391,12 +402,11 @@ function fetchAllImages(){
     return $result;
 }
 
-function uploadImage($file, $description, $userId, $conn) {
-    $conn = koneksi();
+function uploadImage($file, $title, $description, $IdRole, $conn) {
     $targetDir = "../uploads/";
     $targetFile = $targetDir . basename($file["name"]);
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-    
+
     $check = getimagesize($file["tmp_name"]);
     if ($check === false) {
         return "File is not an image.";
@@ -419,8 +429,9 @@ function uploadImage($file, $description, $userId, $conn) {
         return "Sorry, there was an error uploading your file.";
     }
 
-    $stmt = $conn->prepare("INSERT INTO images (image_path, description, id) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $targetFile, $description, $userId);
+    $stmt = $conn->prepare("INSERT INTO images (image_path, title, description, id_role) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sssi", $targetFile, $title, $description, $IdRole);
+
     if ($stmt->execute()) {
         $stmt->close();
         return "The file " . basename($file["name"]) . " has been uploaded.";
