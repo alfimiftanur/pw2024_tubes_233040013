@@ -42,7 +42,12 @@ $users = getUsers($sortBy, $sortOrder);
             <a href="add.php" class="btn btn-primary">Add User</a>
             <a href="../index.php" class="btn btn-secondary">Return to Home</a>
         </div>
-        <table id="usersTable">
+        <form action="" method="POST">
+            <input type="text" name="keyword" size="40" placeholder="Enter keyword" autocomplete="off" autofocus class="keyword">
+            <button type="submit" name="search" class="search-button">Search</button>
+        </form>
+        <div class="result">
+        <table id="usersTable" class="userTable">
             <tr>
                 <th><a href="?sortBy=id&sortOrder=<?= $newSortOrder; ?>" class="text-decoration-none text-reset">ID <i class="bi bi-arrow-<?= ($sortBy === 'id' && $sortOrder === 'ASC') ? 'up' : 'down'; ?> text-dark"></i></a></th>
                 <th><a href="?sortBy=username&sortOrder=<?= $newSortOrder; ?>" class="text-decoration-none text-reset">Name <i class="bi bi-arrow-<?= ($sortBy === 'username' && $sortOrder === 'ASC') ? 'up' : 'down'; ?> text-dark"></i></a></th>
@@ -77,11 +82,11 @@ $users = getUsers($sortBy, $sortOrder);
             <?php } ?>
         </table>
         </div>
+        </div>
     </div>
 
 
     <script src="assets/js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    </script>
 </body>
 </html>

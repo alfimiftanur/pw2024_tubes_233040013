@@ -1,10 +1,10 @@
 footer {
-    background-color: #F8F9FA;
+    background-color: #ddd;
     color: black;
     padding: 5px 0;
   }
   
-  .footer-content {
+.footer-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,32 +12,67 @@ footer {
     margin: 0 auto;
   }
   
-  .footer-content a{
+.footer-content a{
     text-decoration: none;
     color: black;
   }
   
-  .footer-links {
+.footer-links {
     list-style: none;
     padding: 0;
     margin: 0;
   }
   
-  .footer-links li {
+.footer-links li {
     display: inline-block;
     margin: 0 20px 10px 0;
   }
   
-  .footer-links li:last-child {
+.footer-links li:last-child {
     margin-right: 10px;
   }
   
-  .footer-links a {
+.footer-links a {
     color: black;
     text-decoration: none;
   }
   
-  .footer-links a:hover {
+.footer-links a:hover {
     color: #58d8ff; 
     transition: color 0.3s;
   }
+
+  /* Media Query */
+
+/* Tablet */
+@media screen and (max-width: 992px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-links {
+    margin-top: 20px;
+  }
+
+  .footer-links li {
+    display: block;
+    margin: 10px 0;
+  }
+}
+
+/* HP */
+@media screen and (max-width: 576px) {
+  .footer-content {
+    padding: 20px 10px; /* Adjust padding for smaller screens */
+  }
+
+  .footer-links {
+    text-align: center;
+  }
+
+  .footer-links li {
+    display: block;
+    margin: 10px auto;
+  }
+}

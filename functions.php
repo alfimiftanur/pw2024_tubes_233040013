@@ -272,7 +272,7 @@ function addUser($gambar, $username, $email, $password, $role) {
     $targetDir = "../uploads/"; 
     $defaultGambar = "assets/img/default.jpg";
     if (empty($_FILES['image']['name'])) {
-        $targetFile = $targetDir . $defaultGambar;
+        $targetFile = '../'. $defaultGambar;
         $uploadOk = 1; 
     } else {
         $targetFile = $targetDir . basename($gambar["name"]);
@@ -589,5 +589,49 @@ function getUsers($sortBy = 'id', $sortOrder = 'ASC') {
     mysqli_close($conn);
     return $users;
 }
+
+
+// ajax
+function search($keyword) {
+    $conn = koneksi();
+
+    $query = "SELECT title, description, image_path FROM images WHERE title LIKE '%$keyword%'";
+
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        die('Query Error: ' . mysqli_error($conn));
+    }
+
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+
+    return $rows;
+}
+
+// search user di admin dashboard menggunakan ajax
+function searchUser($keyword)
+{
+    $conn = koneksi();
+
+    $stmt = $conn->prepare("SELECT * FROM user WHERE username LIKE ?");
+    $searchKeyword = '%' . $keyword . '%';
+    $stmt->bind_param("s", $searchKeyword);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $rows = [];
+    while ($row = $result->fetch_assoc()) {
+        $rows[] = $row;
+    }
+
+    $stmt->close();
+    $conn->close();
+
+    return $rows;
+}
+
+
 
 ?>

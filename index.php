@@ -2,6 +2,13 @@
 require "functions.php";
 
 $result = fetchAllImages();
+
+// $images = query("SELECT * FROM images");
+
+// // ketika tombol cari diklik
+// if (isset($_POST['search'])) {
+//   $rows = search($_POST['keyword']);
+// }
 ?> 
 <!doctype html>
 <html lang="en">
@@ -34,10 +41,10 @@ $result = fetchAllImages();
               <h1 class="jumbotron-heading">Where To?</h1>
               <div class="search-container ms-auto">
                 <form class="d-flex" role="search" autocomplete="off" id="searchForm">
-                  <input class="form-control bi bi-search" type="search" id="searchInput" placeholder="Places to go, things to do, hotels..." aria-label="Search">
-                  <button class="btn btn-search" type="submit">Search</button>
+                  <input class="form-control bi bi-search keyword" type="search" id="searchInput" placeholder="Places to go, things to do, hotels..." aria-label="Search">
+                  <button class="btn btn-search search-button" type="submit">Search</button>
                 </form>
-                <div id="searchResults"></div>
+                <div class="search-results"></div>
               </div>
             </div>
             <p class="lead text-muted py-3 ">
@@ -50,11 +57,12 @@ $result = fetchAllImages();
         <!-- end jumbotron -->
 
         <!-- starts carousel -->
-        <section class="container">
+        <section >
+          <div class="container">
           <h4 class="title d-flex justify-content-start">Best Trip</h4>
           <p class="sub-title d-flex justify-content-start">Travelers' Choice Best of the Best</p>
           <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
+            <div class="carousel-inner result">
               <?php
               if ($result->num_rows > 0) {
                 $rows = [];
@@ -106,10 +114,13 @@ $result = fetchAllImages();
               <span class="visually-hidden">Next</span>
             </button>
           </div>
-
+          </div>
           <!-- Dream trip -->
+
+          <div class="container">
           <h4 class="title d-flex justify-content-start py-5">Dream Your Next Trip</h4>
           <p class="sub-title d-flex justify-content-start">Weekend Recommendations Trip</p>
+          </div>
         </section>
 
 
@@ -117,9 +128,11 @@ $result = fetchAllImages();
       <!-- footer -->
       <?php include 'layout/footer.php'; ?>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/ajax.js"></script>
+
+
     <script src="assets/js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
+
   </body>
 </html>
