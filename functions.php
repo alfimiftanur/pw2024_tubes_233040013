@@ -52,7 +52,6 @@ function login($data) {
         
             $_SESSION['id'] = $user['id'];
 
-            // Insert a new record for the current session
             $stmt = $conn->prepare("INSERT INTO user_sessions (id, session_start) VALUES (?, NOW())");
             $stmt->bind_param("i", $user['id']);
             $stmt->execute();
@@ -441,19 +440,21 @@ function uploadImage($file, $title, $description, $IdRole, $conn) {
     }
 }
 
-function updateImage($id_images, $description, $file, $conn, &$imagePath)
+function updateImage($id_images, $title, $description, $file, $conn, $imagePath)
 {
+    if ($conn->connect_error) {
+        return "Database connection error: " . $conn->connect_error;
+    }
+
     $targetDir = "../uploads/";
     $newFileUploaded = false;
     $newTargetFile = "";
     $oldImagePath = "";
 
-    // cek jika meng-upload gambar
     if ($file["name"]) {
         $newTargetFile = $targetDir . basename($file["name"]);
         $imageFileType = strtolower(pathinfo($newTargetFile, PATHINFO_EXTENSION));
 
-        // validasi gambar
         $check = getimagesize($file["tmp_name"]);
         if ($check === false) {
             return "File is not an image.";
@@ -463,7 +464,6 @@ function updateImage($id_images, $description, $file, $conn, &$imagePath)
             return "Sorry, file already exists.";
         }
 
-        // cek size gambar
         if ($file["size"] > 5000000) {
             return "Sorry, your file is too large.";
         }
@@ -479,8 +479,10 @@ function updateImage($id_images, $description, $file, $conn, &$imagePath)
 
         $newFileUploaded = true;
 
-        // mengambil path gambar lama untuk dihapus
         $stmt = $conn->prepare("SELECT image_path FROM images WHERE id_images = ?");
+        if (!$stmt) {
+            return "Prepare statement failed: " . $conn->error;
+        }
         $stmt->bind_param("i", $id_images);
         $stmt->execute();
         $stmt->bind_result($oldImagePath);
@@ -488,18 +490,22 @@ function updateImage($id_images, $description, $file, $conn, &$imagePath)
         $stmt->close();
     }
 
-    // update database
     if ($newFileUploaded) {
-        $stmt = $conn->prepare("UPDATE images SET image_path = ?, description = ? WHERE id_images = ?");
-        $stmt->bind_param("ssi", $newTargetFile, $description, $id_images);
+        $stmt = $conn->prepare("UPDATE images SET image_path = ?, title = ?, description = ? WHERE id_images = ?");
+        if (!$stmt) {
+            return "Prepare statement failed: " . $conn->error;
+        }
+        $stmt->bind_param("sssi", $newTargetFile, $title, $description, $id_images);
         $imagePath = $newTargetFile; 
     } else {
-        $stmt = $conn->prepare("UPDATE images SET description = ? WHERE id_images = ?");
-        $stmt->bind_param("si", $description, $id_images);
+        $stmt = $conn->prepare("UPDATE images SET title = ?, description = ? WHERE id_images = ?");
+        if (!$stmt) {
+            return "Prepare statement failed: " . $conn->error;
+        }
+        $stmt->bind_param("ssi", $title, $description, $id_images);
     }
 
     if ($stmt->execute()) {
-        // menghapus gambar lama jika meng-upload gambar
         if ($newFileUploaded && file_exists($oldImagePath)) {
             unlink($oldImagePath);
         }
@@ -510,6 +516,7 @@ function updateImage($id_images, $description, $file, $conn, &$imagePath)
         return "Error: " . $stmt->error;
     }
 }
+
 
 function deleteImage($id_images) {
     $conn = koneksi();

@@ -41,6 +41,7 @@ $users = getUsers($sortBy, $sortOrder);
         <div class="d-flex justify-content-between mb-4">
             <a href="add.php" class="btn btn-primary">Add User</a>
             <a href="../index.php" class="btn btn-secondary">Return to Home</a>
+            <a href="javascript:void(0);" onclick="window.print();" class="btn btn-success">Print</a>
         </div>
         <form action="" method="POST">
             <input type="text" name="keyword" size="40" placeholder="Enter keyword" autocomplete="off" autofocus class="keyword">

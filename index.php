@@ -62,7 +62,7 @@ $result = fetchAllImages();
           <h4 class="title d-flex justify-content-start">Best Trip</h4>
           <p class="sub-title d-flex justify-content-start">Travelers' Choice Best of the Best</p>
           <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner result">
+            <div class="carousel-inner result py-5">
               <?php
               if ($result->num_rows > 0) {
                 $rows = [];
@@ -114,12 +114,6 @@ $result = fetchAllImages();
               <span class="visually-hidden">Next</span>
             </button>
           </div>
-          </div>
-          <!-- Dream trip -->
-
-          <div class="container">
-          <h4 class="title d-flex justify-content-start py-5">Dream Your Next Trip</h4>
-          <p class="sub-title d-flex justify-content-start">Weekend Recommendations Trip</p>
           </div>
         </section>
 

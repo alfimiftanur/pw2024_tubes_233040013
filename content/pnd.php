@@ -6,54 +6,43 @@ require '../functions.php';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bali</title>
-  <link rel="stylesheet" href="../assets/css/header.css">
-  <link rel="stylesheet" href="../assets/css/footer.css">
-  <!-- Bootstrap CSS -->
+  <title>Pangandaran</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/header.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
   <!-- Poppins Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-* {
-    box-sizing: border-box;
-}
-
-body{
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-  }
-
-.navbar-nav {
-    margin: 0 auto;
-}
-.btn {
-    color: white;
-    background-color: black;
-}
-.login .btn:hover {
-    color: white;
-    background-color: #2b2b2b;
-}
-
-.jumbotron{
-    padding-top: 30%;
-    position: relative;
-    background: url('../assets/img/content-bali.jpg') no-repeat center ;
-    background-size: cover;
-    color: white;
-    z-index: 2;
-    border: 1px black solid;
-}
-.header-text .display-4, .header-text .lead{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-h2{
-  text-align: center;
-}
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .jumbotron {
+      background: url('../assets/img/pangandaran.jpg') no-repeat bottom;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      padding: 200px 0;
+    }
+    .section-title {
+      font-weight: 600;
+      margin-top: 50px;
+      margin-bottom: 30px;
+    }
+    .image-gallery img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .image-gallery .col {
+      flex: 1 1 calc(33.333% - 15px);
+      box-sizing: border-box;
+    }
   </style>
 </head>
 <body>
@@ -99,111 +88,100 @@ h2{
         </div>
     </nav>
 
- <div class="container">
-  <div class="jumbotron jumbotron-fluid text-center rounded ">
-    <div class="header-text">
-      <h1 class="display-4">Welcome to Bali!</h1>
-      <p class="lead">Discover the beauty of the Island of the Gods.</p>
+   <div class="container">
+        <div class="jumbotron">
+            <h1>Welcome to Pangandaran</h1>
+            <p>Discover the beauty and culture of Pangandaran</p>
+        </div>
     </div>
-  </div>
-<div class="container">
-  <h2 style="padding-top:1rem;">About Bali</h2>
-  <p>Bali is an Indonesian island known for its forested volcanic mountains, iconic rice paddies, beaches, and coral reefs. It's part of the Coral Triangle, which has the highest biodiversity of marine species.</p>
-</div>
 
-<div class="container">
-  <h2 style="padding-top:1rem;">Fun Fact</h2>
-  <p>Bali is home to over 20,000 temples, earning it the nickname "Island of a Thousand Puras" or "Island of the Gods".</p>
-</div>
+  <section id="about-pangandaran" class="container">
+    <h2 class="section-title">About Pangandaran</h2>
+    <p>Pangandaran is a regency in West Java, Indonesia, known for its stunning beaches, vibrant marine life, and rich cultural heritage. It offers a variety of attractions ranging from natural wonders to historical sites.</p>
+  </section>
 
-<div class="container">
-  <h2 style="padding-top:1rem;">Popular Destinations</h2>
+  <section id="fun-facts" class="container">
+    <h2 class="section-title">Fun Facts About Pangandaran</h2>
+    <ul>
+      <li>Pangandaran is home to the Green Canyon, a beautiful river canyon with clear turquoise water.</li>
+      <li>It's one of the best spots in Indonesia for surfing, snorkeling, and diving.</li>
+      <li>Pangandaran Beach hosts an annual kite festival attracting participants from around the world.</li>
+      <li>The area is rich in seafood, and its fish market is a must-visit for seafood lovers.</li>
+    </ul>
+  </section>
+
+<section id="popular-attractions" class="container">
+  <h2 class="section-title">Popular Attractions</h2>
   <div class="row">
     <div class="col-md-4">
       <div class="card">
-        <img src="../assets/img/kuta-beach.jpg" class="card-img-top" alt="Kuta Beach" height="250" width="250">
+        <img src="../assets/img/green-canyon.jpg" class="card-img-top" alt="Green Canyon">
         <div class="card-body">
-          <h5 class="card-title text-center">Kuta Beach</h5>
+          <h5 class="card-title">Green Canyon</h5>
+          <p class="card-text">A stunning river canyon with clear turquoise water.</p>
         </div>
       </div>
     </div>
-    
     <div class="col-md-4">
       <div class="card">
-        <img src="../assets/img/pura-besakih.jpg" class="card-img-top" alt="Pura Besakih" height="250" width="250">
+        <img src="../assets/img/pangandaran-beach.jpg" class="card-img-top" alt="Pangandaran Beach">
         <div class="card-body">
-          <h5 class="card-title text-center">Pura Besakih</h5>
+          <h5 class="card-title">Pangandaran Beach</h5>
+          <p class="card-text">Famous for its beautiful sunset and annual kite festival.</p>
         </div>
       </div>
     </div>
-
     <div class="col-md-4">
       <div class="card">
-        <img src="../assets/img/melasti-beach.jpg" class="card-img-top" alt="Melasti Beach" height="250" width="250">
+        <img src="../assets/img/citumang.jpg" class="card-img-top" alt="Citumang">
         <div class="card-body">
-          <h5 class="card-title text-center ">Melasti Beach</h5>
+          <h5 class="card-title">Citumang</h5>
+          <p class="card-text">A natural water park perfect for swimming and rafting.</p>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<div class="container">
-  <h2 style="padding-top:1rem;">Culture</h2>
-  <p>Balinese culture is a mix of Balinese Hindu-Buddhist religion and Balinese customs. It is perhaps most known for its dance, drama, and sculpture.</p>
-</div>
+<section id="cultural-highlights" class="container">
+  <h2 class="section-title">Cultural Highlights</h2>
+  <p>Pangandaran has a rich cultural heritage influenced by Sundanese traditions. Local festivals, traditional music, and dance are integral parts of the community. Visitors can experience the unique blend of traditional and modern cultural expressions throughout the region.</p>
+</section>
 
-<div class="container">
-  <h2 style="padding-top:1rem;">Popular Hotel/Resort</h2>
+<section id="famous-hotels" class="container py-5">
+  <h2 class="section-title">Famous Hotels</h2>
   <div class="row">
-    <div class="col-md-4 ">
+    <div class="col-md-4">
       <div class="card">
-        <img src="../assets/img/the-kayon-jungle-resort.jpeg" class="card-img-top" alt="Kuta Beach" height="250" width="250">
+        <img src="../assets/img/laut-biru.jpg" class="card-img-top" alt="Hotel 1">
         <div class="card-body">
-          <h5 class="card-title text-center">The Kayon Jungle Resort</h5>
+          <h5 class="card-title">Hotel Laut Biru</h5>
+          <p class="card-text">A luxurious beachfront hotel offering stunning views and top-notch amenities.</p>
         </div>
       </div>
     </div>
-    
     <div class="col-md-4">
       <div class="card">
-        <img src="../assets/img/adiwana-suweta.jpeg" class="card-img-top" alt="Pura Besakih" height="250" width="250">
+        <img src="../assets/img/hotel-sunrise.jpg" class="card-img-top" alt="Hotel 2">
         <div class="card-body">
-          <h5 class="card-title text-center">Adiwana Suweta</h5>
+          <h5 class="card-title">Hotel Sunrise</h5>
+          <p class="card-text">Known for its beautiful sunrise views and excellent hospitality.</p>
         </div>
       </div>
     </div>
-
     <div class="col-md-4">
       <div class="card">
-        <img src="../assets/img/padma-resort-ubud.webp" class="card-img-top" alt="Melasti Beach" height="250" width="250">
+        <img src="../assets/img/hotel-green-canyon.jpg" class="card-img-top" alt="Hotel 3">
         <div class="card-body">
-          <h5 class="card-title text-center ">Padma Resort Ubud</h5>
+          <h5 class="card-title">Hotel Green Canyon</h5>
+          <p class="card-text">A perfect blend of comfort and adventure, located near the famous Green Canyon.</p>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<div class="container">
-  <h2 style="padding-top:1rem;">Famous Club</h2>
-  <div class="row">
-    <div class="col-md-6 align-items-center">
-      <p>The Famous Club is where the party never stops. With renowned DJs, vibrant atmosphere, and signature cocktails, it's the ultimate nightlife destination in Bali.</p>
-    </div>
-    <div class="col-md-6">
-      <div class="card">
-        <img src="../assets/img/atlas.jpg" class="card-img-top" alt="Melasti Beach" height="400" width="250">
-        <div class="card-body">
-          <h5 class="card-title text-center ">W Atlas</h5>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<footer>
+  <footer>
       <div class="footer-content">
           <p>&copy; 2024 Indonesia Tour Guide |<a href="https://www.instagram.com/alfimifta31_/" target="_blank"> Alfi Mifta Nurhakim.</a> All rights reserved.</p>
         <ul class="footer-links">
@@ -213,10 +191,10 @@ h2{
         </ul>
       </div>
     </footer>
-  
+ 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

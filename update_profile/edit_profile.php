@@ -102,6 +102,20 @@ if (isset($_POST['submit'])) {
         .profile-photo img {
             max-width: 100px;
         }
+
+        /* responsive */
+        @media only screen and (max-width: 768px) {
+            form {
+                width: 90%;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            form {
+                width: 90%;
+                max-width: 300px;
+            }
+        }
     </style>
 </head>
 <body>

@@ -1,5 +1,9 @@
 <?php
 require '../../functions.php';
+$sortBy = $_GET['sortBy'] ?? 'id';
+$sortOrder = $_GET['sortOrder'] ?? 'ASC';
+$newSortOrder = ($sortOrder === 'ASC') ? 'DESC' : 'ASC';
+
 
 $users = searchUser($_GET['keyword']);
 ?>

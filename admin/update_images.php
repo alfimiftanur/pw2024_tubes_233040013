@@ -25,8 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->fetch();
     $stmt->close();
 
+    $message = updateImage($id_images, $title, $description, $file, $conn, $imagePath);
     $conn->close();
-    $message = updateImage($id_images, $description, $file, $conn, $imagePath);
 
     if (strpos($message, 'updated') !== false) {
         echo "<script>alert('$message'); window.location.href='image.php';</script>";
