@@ -64,7 +64,7 @@ footer {
 /* HP */
 @media screen and (max-width: 576px) {
   .footer-content {
-    padding: 20px 10px; /* Adjust padding for smaller screens */
+    padding: 20px 10px;
   }
 
   .footer-links {

@@ -40,12 +40,12 @@ search.style.display = 'none';
 
 // event ketika nulis keyword
 keyword.addEventListener('keyup', function() {
-    console.log('Keyword input detected:', keyword.value);  // Debugging: Log the keyword input
+    console.log('Keyword input detected:', keyword.value);  
 
     const xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function() {
-        console.log('XHR state:', xhr.readyState, 'Status:', xhr.status);  // Debugging: Log the XHR state and status
+        console.log('XHR state:', xhr.readyState, 'Status:', xhr.status);  
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log( xhr.responseText);  
             result.innerHTML = xhr.responseText;
