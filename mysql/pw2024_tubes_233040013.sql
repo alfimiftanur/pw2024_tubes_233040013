@@ -32,7 +32,7 @@ CREATE TABLE `feedback` (
   `name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `message` varchar(1000) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE= utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `feedback`
@@ -70,7 +70,7 @@ CREATE TABLE `images` (
   `description` text,
   `uploaded_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `id_role` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE= utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `images`
@@ -93,7 +93,7 @@ INSERT INTO `images` (`id_images`, `image_path`, `title`, `description`, `upload
 CREATE TABLE `role` (
   `id_role` int NOT NULL,
   `nama_role` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE= utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `role`
@@ -116,7 +116,7 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `id_role` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE= utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user`
@@ -140,7 +140,7 @@ CREATE TABLE `user_sessions` (
   `id` int DEFAULT NULL,
   `session_start` datetime DEFAULT NULL,
   `session_end` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE= utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_sessions`
